@@ -18,6 +18,7 @@ export const cardStyles = css`
         height: 100%;
         align-items: center;
         justify-content: center;
+        color: var(--sugartv-text-color, inherit);
     }
 
     .container {
@@ -57,6 +58,8 @@ export const cardStyles = css`
         --mdc-icon-size: 10cqi;
         width: 10cqi;
         height: 10cqi;
+        color: inherit;
+        --mdc-icon-color: currentColor;
     }
 
     .delta {
@@ -70,6 +73,8 @@ export const cardStyles = css`
         --mdc-icon-size: 6cqi;
         width: 6cqi;
         height: 6cqi;
+        color: inherit;
+        --mdc-icon-color: currentColor;
     }
 
     .prediction {

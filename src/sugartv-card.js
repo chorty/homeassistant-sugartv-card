@@ -1,4 +1,5 @@
 import { LitElement, html, css } from 'lit';
+import { ifDefined } from 'lit/directives/if-defined.js';
 
 import { cardStyles } from './sugartv-card-styles.js';
 import './sugartv-card-editor.js';
@@ -390,6 +391,70 @@ class SugarTvCard extends LitElement {
         return color_high || null;
     }
 
+    _getBackgroundStyles(value) {
+        const background = this._getBackgroundColor(value);
+
+        if (!background) {
+            return null;
+        }
+
+        return {
+            background,
+            color: this._getContrastColor(background),
+        };
+    }
+
+    _getContrastColor(color) {
+        const rgb = this._parseColor(color);
+
+        if (!rgb) {
+            return '#ffffff';
+        }
+
+        const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+
+        return luminance > 0.6 ? '#000000' : '#ffffff';
+    }
+
+    _parseColor(color) {
+        if (typeof color !== 'string') {
+            return null;
+        }
+
+        const value = color.trim();
+
+        const hexMatch = value.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+        if (hexMatch) {
+            let hex = hexMatch[1];
+            if (hex.length === 3) {
+                hex = hex
+                    .split('')
+                    .map((ch) => ch + ch)
+                    .join('');
+            }
+            const intVal = parseInt(hex, 16);
+            return {
+                r: (intVal >> 16) & 255,
+                g: (intVal >> 8) & 255,
+                b: intVal & 255,
+            };
+        }
+
+        const rgbMatch = value.match(
+            /^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*(\d*(?:\.\d+)?))?\s*\)$/i,
+        );
+
+        if (rgbMatch) {
+            return {
+                r: Math.min(255, parseInt(rgbMatch[1], 10)),
+                g: Math.min(255, parseInt(rgbMatch[2], 10)),
+                b: Math.min(255, parseInt(rgbMatch[3], 10)),
+            };
+        }
+
+        return null;
+    }
+
     render() {
         this._updateData();
 
@@ -401,15 +466,13 @@ class SugarTvCard extends LitElement {
             trendSymbols.unknown;
         const trendIcon = trendInfo.icon;
         const prediction = trendInfo.prediction || '';
-        const backgroundColor = this._getBackgroundColor(value);
+        const rangeStyles = this._getBackgroundStyles(value);
+        const wrapperStyle = rangeStyles
+            ? `background:${rangeStyles.background};--sugartv-text-color:${rangeStyles.color};`
+            : undefined;
 
         return html`
-            <div
-                class="wrapper"
-                style=${backgroundColor
-                    ? `background:${backgroundColor};`
-                    : undefined}
-            >
+            <div class="wrapper" style=${ifDefined(wrapperStyle)}>
                 <div class="container">
                     <div class="main-row">
                         <div class="time">
