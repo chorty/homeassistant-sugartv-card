@@ -22,6 +22,7 @@ A custom Lovelace card for Home Assistant that provides an enhanced way to displ
 - 📱 Responsive card sizing
 - ⚙️ Visual configuration editor
 - 🔮 Configurable prediction display
+- 🎨 Optional background colors by glucose range
 
 ## Installation
 
@@ -49,6 +50,7 @@ A custom Lovelace card for Home Assistant that provides an enhanced way to displ
     - Select glucose value sensor
     - Select glucose trend sensor
     - Toggle prediction display
+    - Pick background colors for low, target, and high ranges
 
 ### Using YAML
 
@@ -57,6 +59,9 @@ type: custom:sugartv-card
 glucose_value: sensor.dexcom_glucose_value
 glucose_trend: sensor.dexcom_glucose_trend
 show_prediction: true
+color_low: '#ff8a80'
+color_mid: '#aed581'
+color_high: '#ffb74d'
 ```
 
 ## Support

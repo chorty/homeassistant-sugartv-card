@@ -28,6 +28,18 @@ class SugarTvCardEditor extends LitElement {
         return this.config.show_prediction !== false;
     }
 
+    get _color_low() {
+        return this.config.color_low || '#ff8a80';
+    }
+
+    get _color_mid() {
+        return this.config.color_mid || '#aed581';
+    }
+
+    get _color_high() {
+        return this.config.color_high || '#ffb74d';
+    }
+
     render() {
         if (!this.hass || !this.config) {
             return html``;
@@ -81,6 +93,48 @@ class SugarTvCardEditor extends LitElement {
                         @change=${this._valueChanged}
                     ></ha-switch>
                 </ha-formfield>
+
+                <div class="values">
+                    <div class="section-heading">
+                        ${localize('editor.background_colors_heading')}
+                    </div>
+                    <div class="color-row">
+                        <label for="color-low">
+                            ${localize('editor.color_low')}
+                        </label>
+                        <input
+                            id="color-low"
+                            type="color"
+                            .value=${this._color_low}
+                            .configValue=${'color_low'}
+                            @change=${this._valueChanged}
+                        />
+                    </div>
+                    <div class="color-row">
+                        <label for="color-mid">
+                            ${localize('editor.color_mid')}
+                        </label>
+                        <input
+                            id="color-mid"
+                            type="color"
+                            .value=${this._color_mid}
+                            .configValue=${'color_mid'}
+                            @change=${this._valueChanged}
+                        />
+                    </div>
+                    <div class="color-row">
+                        <label for="color-high">
+                            ${localize('editor.color_high')}
+                        </label>
+                        <input
+                            id="color-high"
+                            type="color"
+                            .value=${this._color_high}
+                            .configValue=${'color_high'}
+                            @change=${this._valueChanged}
+                        />
+                    </div>
+                </div>
             </div>
         `;
     }
@@ -92,10 +146,16 @@ class SugarTvCardEditor extends LitElement {
 
         const { target } = ev;
 
+        const { configValue } = target;
+
+        if (!configValue) {
+            return;
+        }
+
         const newConfig = {
             ...this.config,
-            [target.configValue]:
-                target.configValue === 'show_prediction'
+            [configValue]:
+                configValue === 'show_prediction'
                     ? target.checked
                     : target.value,
         };

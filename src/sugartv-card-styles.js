@@ -91,4 +91,26 @@ export const editorStyles = css`
     .card-config {
         padding: 16px;
     }
+    .section-heading {
+        font-weight: 600;
+        margin: 16px 0 8px;
+    }
+    .color-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        gap: 12px;
+    }
+    .color-row label {
+        flex: 1;
+    }
+    .color-row input[type='color'] {
+        width: 56px;
+        height: 32px;
+        border: none;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+    }
 `;

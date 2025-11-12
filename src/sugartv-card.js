@@ -349,6 +349,47 @@ class SugarTvCard extends LitElement {
         });
     }
 
+    _getBackgroundColor(value) {
+        if (!this.config || !this._isValidValue(value)) {
+            return null;
+        }
+
+        const sanitized = parseFloat(String(value).replace(',', '.'));
+
+        if (!Number.isFinite(sanitized)) {
+            return null;
+        }
+
+        const mgdlValue =
+            this._data.unit === SugarTvCard.UNITS.MMOLL
+                ? sanitized * 18
+                : sanitized;
+
+        const { color_low, color_mid, color_high } = this.config;
+
+        if (!color_low && !color_mid && !color_high) {
+            return null;
+        }
+
+        if (mgdlValue < 1) {
+            return color_low || null;
+        }
+
+        if (mgdlValue <= 69) {
+            return color_low || null;
+        }
+
+        if (mgdlValue <= 149) {
+            return color_mid || null;
+        }
+
+        if (mgdlValue <= 600) {
+            return color_high || null;
+        }
+
+        return color_high || null;
+    }
+
     render() {
         this._updateData();
 
@@ -360,9 +401,15 @@ class SugarTvCard extends LitElement {
             trendSymbols.unknown;
         const trendIcon = trendInfo.icon;
         const prediction = trendInfo.prediction || '';
+        const backgroundColor = this._getBackgroundColor(value);
 
         return html`
-            <div class="wrapper">
+            <div
+                class="wrapper"
+                style=${backgroundColor
+                    ? `background:${backgroundColor};`
+                    : undefined}
+            >
                 <div class="container">
                     <div class="main-row">
                         <div class="time">

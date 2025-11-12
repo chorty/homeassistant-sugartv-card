@@ -9,6 +9,10 @@ const languages = {
             glucose_value: 'Glucose value entity (required)',
             glucose_trend: 'Glucose trend entity (required)',
             show_prediction: 'Show prediction',
+            background_colors_heading: 'Background color ranges',
+            color_low: 'Low (1-69 mg/dL)',
+            color_mid: 'Target (69-149 mg/dL)',
+            color_high: 'High (150-600 mg/dL)',
         },
         units: {
             mgdl: 'mg/dL',
@@ -35,6 +39,10 @@ const languages = {
             glucose_value: 'Значение глюкозы (обязательно)',
             glucose_trend: 'Тренд глюкозы (обязательно)',
             show_prediction: 'Показывать прогноз?',
+            background_colors_heading: 'Цвета фона по диапазонам',
+            color_low: 'Низкий (1-69 мг/дл)',
+            color_mid: 'Целевой (69-149 мг/дл)',
+            color_high: 'Высокий (150-600 мг/дл)',
         },
         units: {
             mgdl: 'мг/дл',
